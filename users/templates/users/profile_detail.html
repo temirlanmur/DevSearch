@@ -1,0 +1,90 @@
+{% extends 'users/base_users.html' %}
+
+
+{% block title %}
+{{ block.super }} - {{ profile.name }}'s Profile
+{% endblock %}
+
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Card -->
+            <aside class="col-lg-3">                
+                <div class="card bg-light text-center mb-4">
+                    <div class="card-body">
+                        <img src="{{ profile.image_URL }}" class="cardAvatar w-50 mb-3" alt="Profile Image">
+                        <h5 class="card-title mb-3">{{ profile.name }}</h5>
+                        <h6 class="card-subtitle mb-4 text-muted">
+                            {{ profile.short_intro }}
+                        </h6>
+                        {% if profile.location %}
+                            <p class="card-text mb-3">
+                                Based in {{ profile.location }}
+                            </p>
+                        {% endif %}                    
+                        <div class="iconSet d-flex justify-content-center">
+                            {% if profile.social_github %}
+                                <a href="{{ profile.social_github }}"><i class="bi bi-github"></i></a>
+                            {% endif %}
+                            {% if profile.social_twitter %}
+                                <a href="{{ profile.social_twitter }}"><i class="bi bi-twitter"></i></a>
+                            {% endif %}
+                            {% if profile.social_linkedin %}
+                                <a href="{{ profile.social_linkedin }}"><i class="bi bi-linkedin"></i></a>
+                            {% endif %}
+                            {% if profile.social_youtube %}
+                                <a href="{{ profile.social_youtube }}"><i class="bi bi-youtube"></i></a>
+                            {% endif %}
+                            {% if profile.social_website %}
+                                <a href="{{ profile.social_website }}"><i class="bi bi-globe"></i></a>
+                            {% endif %}
+                        </div>
+                        {% if request.user.profile.id != profile.id %}                        
+                            <a class="btn btn-outline-primary mt-3" href="{% url 'users:create_message' profile.id %}">Send Message</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </aside>
+            <!-- Main -->
+            <main class="col-lg-9">
+                <h2>About Me</h2>
+                <p>{{ profile.bio }}</p>
+
+                <h2 class="mt-4">Skills</h2>
+                {% if top_skills %}
+                    <dl class="row">
+                        {% for skill in top_skills %}                
+                                <dt class="col-sm-2">{{ skill.name }}</dt>
+                                <dd class="col-sm-10">{{ skill.description }}</dd>        
+                        {% endfor %}
+                    </dl>
+                {% endif %}
+                {% if other_skills %}                
+                    <h4 class="mt-4">Other Skills</h4>
+                {% endif %}
+                <p>
+                    {% for skill in other_skills %}
+                        <span class="badge bg-primary fs-6">{{ skill.name }}</span>
+                    {% endfor %}                
+                </p>                
+
+                <h2 class="mt-4">Projects</h2>
+                <div class="row g-4 mt-1">
+                    {% for project in profile.projects.all %}
+                        <div class="col-lg-6">
+                            <a class="text-reset text-decoration-none"
+                                href="{{ project.get_absolute_url }}">
+                                {% include 'projects/project_card.html' %}
+                            </a>
+                        </div>  
+                    {% empty %}
+                        <p>The Developer has not submitted any projects yet</p>    
+                    {% endfor %}                    
+                </div>                                    
+            </main>    
+        </div>
+    </div>
+</section>
+{% endblock %}

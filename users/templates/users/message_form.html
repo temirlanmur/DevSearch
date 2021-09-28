@@ -1,0 +1,59 @@
+{% extends 'users/base_users.html' %}
+
+
+{% block title %}
+{{ block.super }} - New Message
+{% endblock %}
+
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <a class="fs-2" href="{{ recipient.get_absolute_url }}"><i class="bi bi-arrow-left-circle"></i></a>
+        <div class="card bg-light mt-3">
+            <div class="card-body">
+                <h4 class="card-title">Send message to {{ recipient.name }}</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <form action="{% url 'users:create_message' recipient.id %}" method="POST">
+                        {% csrf_token %}
+            
+                        {% if not request.user.is_authenticated %}
+                            <div class="mb-3">
+                                <label class="form-label" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                                {{ form.name }}
+                                {% for error in form.name.errors %}
+                                    <div class="form-text">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                                {{ form.email }}
+                                {% for error in form.email.errors %}
+                                    <div class="form-text">{{ error }}</div>
+                                {% endfor %}
+                            </div>                                                       
+                        {% endif %}
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.subject.id_for_label }}">{{ form.subject.label }}</label>
+                            {{ form.subject }}
+                            {% for error in form.subject.errors %}
+                                <div class="form-text">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.body.id_for_label }}">{{ form.body.label }}</label>
+                            {{ form.body }}
+                            {% for error in form.body.errors %}
+                                <div class="form-text">{{ error }}</div>
+                            {% endfor %}                
+                        </div>
+                        <input class="btn btn-primary mb-3" type="submit" value="Submit">
+                    </form>
+                </li>                
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}

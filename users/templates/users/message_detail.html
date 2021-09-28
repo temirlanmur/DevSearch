@@ -1,0 +1,31 @@
+{% extends 'users/base_users.html' %}
+
+
+{% block title %}
+{{ block.super }} - Message
+{% endblock %}
+
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <a class="fs-2" href="{% url 'users:inbox' %}"><i class="bi bi-arrow-left-circle"></i></a>
+        <div class="card mt-3 bg-light">
+            <div class="card-body">
+                <h4 class="card-title">{{ message.subject }}</h4>
+                <p class="card-text">
+                    From
+                    {% if message.sender %}
+                        <a class="link-secondary" href="{{ message.sender.get_absolute_url }}">{{ message.name }}</a>
+                    {% else %}
+                        {{ message.name }}
+                    {% endif %}
+                    on {{ message.date_created }}</p>                
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ message.body|linebreaks }}</li>            
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}

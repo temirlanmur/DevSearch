@@ -1,0 +1,19 @@
+{% load static %}
+<div class="card bg-light">
+    <div class="card-body">
+        <div class="d-flex align-items-center mb-2">
+            <img src="{{ profile.image_URL }}" class="cardAvatar" alt="Profile Image">
+            <div class="ms-3">
+                <h5 class="card-title">
+                    {{ profile.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    {{ profile.short_intro|slice:"60" }}</h6>
+            </div>
+        </div>
+        <p class="card-text">
+            {{ profile.bio|slice:"150" }}</p>
+        {% for skill in profile.skills.all|slice:"5" %}
+            <span class="badge bg-primary">{{ skill }}</span>
+        {% endfor %}
+    </div>
+</div>

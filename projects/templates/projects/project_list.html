@@ -1,0 +1,44 @@
+{% extends 'projects/base_projects.html' %}
+
+
+{% block title %}
+{{ block.super }} - Projects
+{% endblock %}
+
+
+{% block content %}
+
+<!-- Search Bar -->
+<section class="py-5 bg-primary bg-gradient text-light">
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+        <h2 class="w-50 display-6 text-uppercase text-center mb-4">
+            Welcome to our <span class="fw-bold">Projects</span> database
+        </h2>
+        <form class="w-50" id="search_form" action="{% url 'projects:projects' %}" method="GET">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="search_query" value="{{ search_query }}"
+                    placeholder="Search by Project's title / author / description / tag">
+                <input type="submit" class="btn btn-outline-light" value="Search">
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Main -->
+<main class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for project in project_list %}
+                <div class="col-sm-12 col-md-6 col-lg-4">                
+                    {% include 'projects/project_card.html' %}                
+                </div>                
+            {% empty %}
+                <p>No projects available</p>
+            {% endfor %}            
+        </div>
+    </div>
+</main>
+
+{% include 'pagination.html' with queryset=project_list %}
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% load static %}
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-md">
+        <a href="{% url 'users:profiles' %}" class="navbar-brand">
+            <img src="{% static 'images/logo.svg' %}" alt="Logo">
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navmenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navmenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:profiles' %}">Developers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'projects:projects' %}">Projects</a>
+                </li>                
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:inbox' %}">Inbox</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:account' %}">Account</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <a class="btn btn-outline-secondary" href="{% url 'users:logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item ms-3">
+                        <a class="btn btn-outline-secondary" href="{% url 'users:login' %}">Login/Sign Up</a>
+                    </li>
+                {% endif %}                                          
+            </ul>
+        </div>
+    </div>
+</nav>

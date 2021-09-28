@@ -1,0 +1,30 @@
+{% extends 'users/base_users.html' %}
+
+
+{% block title %}
+{{ block.super }} - Profiles
+{% endblock %}
+
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <a class="fs-2" href="{% url 'users:account' %}"><i class="bi bi-arrow-left-circle"></i></a>
+        <h2 class="my-3">Edit Profile</h2>
+        <form action="{% url 'users:update_profile' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="mb-3">
+                    <label class="d-block form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <div class="form-text">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <input class="btn btn-primary" type="submit" value="Update">
+        </form>
+    </div>
+</section>
+{% endblock %}

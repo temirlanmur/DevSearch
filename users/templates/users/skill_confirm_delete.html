@@ -1,0 +1,33 @@
+{% extends 'users/base_users.html' %}
+
+
+{% block title %}
+{{ block.super }} - Delete Skill
+{% endblock %}
+
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="card w-75 mx-auto">            
+            <div class="card-body text-center">
+                <p class="card-text">
+                    Do you want to delete skill "{{ skill.name }}"
+                    from your profile?
+                    <strong>The data will be lost</strong></p>                
+                {% if skill.description %}
+                <p class="card-text">
+                    It contains description:<br>
+                    <span class="text-muted">{{ skill.description }}</span>
+                </p>
+                {% endif %}
+                <form action="{{ project.get_delete_url }}" method="post">
+                    {% csrf_token %}
+                    <a class="btn btn-primary me-2" href="{% url 'users:account' %}">Cancel</a>
+                    <input class="btn btn-danger" type="submit" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

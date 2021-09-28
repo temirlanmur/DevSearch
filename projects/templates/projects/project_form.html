@@ -1,0 +1,31 @@
+{% extends 'projects/base_projects.html' %}
+
+
+{% block title %}
+{{ block.super }} - {% if create_flag %}Add New Project{% else %}Edit Project{% endif %}
+{% endblock %}
+
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <a class="fs-2" href="{% url 'users:account' %}"><i class="bi bi-arrow-left-circle"></i></a>
+        <h2 class="my-3">{% if create_flag %}Add New Project{% else %}Edit Project{% endif %}</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    <label class="d-block form-label" for="field.id_for_label">{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <div class="form-text">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">
+                {% if create_flag %}Add{% else %}Save and update{% endif %}
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

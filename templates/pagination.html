@@ -1,0 +1,47 @@
+{% if is_paginated %}
+<section>
+    <div class="container">
+        <nav class="d-flex flex-column align-items-center" aria-label="Pagination">
+            <ul class="pagination">
+                {% if previous_page_url %}
+                    <li class="page-item">
+                        <a href="{{ previous_page_url }}"
+                            class="page-link"
+                            data-page="{{ queryset.previous_page_number }}">
+                            Previous</a>
+                    </li>
+                {% endif %}
+                {% for page in custom_range %}                                        
+                    {% if page == queryset.number %}
+                        <li class="page-item active">
+                            <a href="?page={{ page }}"
+                                class="page-link"
+                                data-page="{{ page }}">
+                                {{ page }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a href="?page={{ page }}"
+                            class="page-link"
+                            data-page="{{ page }}">
+                            {{ page }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if next_page_url %}
+                    <li class="page-item">
+                        <a href="{{ next_page_url }}"
+                            class="page-link"
+                            data-page="{{ queryset.next_page_number }}">
+                            Next</a>
+                    </li>
+                {% endif %}                    
+            </ul>
+            <p>
+                Page {{ queryset.number }}
+                of {{ paginator.num_pages }}
+            </p>
+        </nav>  
+    </div>
+</section>
+{% endif %}

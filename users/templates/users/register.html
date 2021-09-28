@@ -1,0 +1,41 @@
+{% extends 'users/base_users.html' %}
+{% load static %}
+
+
+{% block title %}
+{{ block.super }}
+{% endblock %}
+
+
+{% block content %}
+
+<!-- Search Bar -->
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-9 col-md-6 col-xl-4">                
+                <img src="{% static 'images/icon.svg' %}" class="authLogo d-block mx-auto mb-3" alt="Form icon">                                            
+                <h4 class="text-center">Account Sign Up</h4>
+                <h5 class="mb-4 text-muted text-center">
+                    Create a New Developer Account
+                </h5>
+                <form action="{% url 'users:register' %}" method="POST">
+                    {%csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>                        
+                        {{ field }}                    
+                        {% for error in field.errors %}
+                            <div class="form-text">{{ error }}</div>
+                        {% endfor%}
+                    </div>                                    
+                    {% endfor %}
+                    <input type="submit" class="btn btn-primary mb-2" value="Register">
+                    <p>Already have an account? Sign in <a class="link-primary" href="{% url 'users:login' %}">here</a></p>
+                </form>                
+            </div>    
+        </div>    
+    </div>
+</section>
+{% endblock %}

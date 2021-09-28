@@ -1,0 +1,47 @@
+{% extends 'users/base_users.html' %}
+
+
+{% block title %}
+{{ block.super }} - My Inbox
+{% endblock %}
+
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5 class="card-title">New messages ({{ unread_count }})</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-light">
+                    <div class="row">
+                        <div class="col-2">From</div>
+                        <div class="col-8"><span class="fst-italic">Subject</span> // Text</div>
+                        <div class="col-2">Date</div>
+                    </div>
+                </li>
+                {% for message in messages_list %}
+                    {% if not message.is_read %}
+                        <div class="fw-bold">
+                    {% endif %}
+                        <a class="text-reset text-decoration-none" href="{{ message.get_absolute_url }}">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-2">{{ message.name }}</div>
+                                    <div class="col-8">
+                                        <span class="fst-italic">{{ message.subject }}</span>
+                                        // {{ message.body|slice:"50" }}...</div>
+                                    <div class="col-2">{{ message.date_created }}</div>
+                                </div>
+                            </li>
+                        </a>
+                    {% if not message.is_read %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>            
+    </div>
+</section>
+{% endblock %}

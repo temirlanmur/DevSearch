@@ -1,0 +1,39 @@
+{% extends 'users/base_users.html' %}
+{% load static %}
+
+
+{% block title %}
+{{ block.super }} - Login
+{% endblock %}
+
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-9 col-md-6 col-xl-4">                
+                <img src="{% static 'images/icon.svg' %}" class="authLogo d-block mx-auto mb-3" alt="Form icon">
+                <h4 class="text-center">Account Login</h4>
+                <h5 class="mb-4 text-muted text-center">
+                    Hello Developer, Welcome Back!</h5>
+                <form action="{% url 'users:login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label" for="username">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password">
+                    </div>                            
+                    <input type="submit" class="btn btn-primary mb-2" value="Login">                
+                    <p>Don't have an account? Sign up <a class="link-primary" href="{% url 'users:register' %}">here</a></p>
+                    {% if redirect_to %}
+                        <input hidden type="text" name="redirect_url" value="{{ redirect_to }}">
+                    {% endif %}
+                </form>                
+            </div>    
+        </div>    
+    </div>
+</section>
+{% endblock %}

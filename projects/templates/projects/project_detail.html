@@ -1,0 +1,87 @@
+{% extends 'projects/base_projects.html' %}
+
+
+{% block title %}
+{{ block.super }} - {{ project.title }}
+{% endblock %}
+
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <aside class="col-lg-3 mb-2">
+                <h4 class="mb-3 text-uppercase text-secondary">Tools & Stacks</h4>             
+                <p class="mb-4">
+                    {% for tag in project.tags.all %}
+                        <span class="badge bg-primary fs-6 m-1">{{ tag }}</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {% if project.source_link %}
+                        <a class="text-decoration-none link-primary mx-2 fs-6" href="{{ project.source_link }}">
+                            <i class="bi bi-box-arrow-up-left"></i>
+                            Source Link</a>
+                    {% endif %}
+                    {% if project.demo_link %}
+                        <a class="text-decoration-none link-primary mx-2 fs-6" href="{{ project.demo_link }}">
+                            <i class="bi bi-box-arrow-up-left"></i>
+                            Demo Link</a>
+                    {% endif %}
+                </p>
+            </aside>
+            <main class="col-lg-9">
+                <img src="{{ project.image_URL }}" class="d-block w-75 mb-3" alt="Project Image">
+                <a class="text-decoration-none link-primary" href="{{ project.owner.get_absolute_url }}">By {{ project.owner.name }}</a> 
+                <h2 class="my-4">{{ project.title }}</h2>
+                <h4 class="mb-3 text-uppercase text-secondary">About the project</h4>
+                <p class="mb-5">{{ project.description }}</p>
+                <hr>
+                <h4 class="mb-3 text-uppercase text-secondary">Feedback</h4>
+                <p class="fs-5 mb-4 fw-bold">
+                    {{ project.vote_ratio }}% Positive Feedback
+                    ({{ project.vote_total }} vote{{ project.vote_total|pluralize }}) 
+                </p>
+                <!-- Review section -->
+                <section class="mb-4">
+                {% if request.user.profile.id in project.reviewers %}
+                    <p>You have already submitted your review for this project</p>
+                {% elif request.user.profile == project.owner %}
+                    <p>You cannot review your own work</p>
+                {% elif request.user.is_authenticated %}
+                    <form action="{{ project.get_absolute_url }}" method="POST">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        <input class="btn btn-primary" type="submit" value="Submit">
+                    </form>
+                {% else %}
+                    <p>Only registered users may leave reviews</p>
+                {% endif %}
+                </section>
+                <!-- Comments by other users -->
+                <section>
+                    {% for review in project.reviews.all %}
+                        {% if review.body %}
+                            <div class="mb-3 p-3 bg-light border rounded">
+                                <a class="text-decoration-none" href="{{ review.owner.get_absolute_url }}">
+                                    <img src="{{ review.owner.profile_image.url }}" class="commentAvatar me-1" alt="Profile Image">
+                                    {{ review.owner.name }}
+                                </a>                                
+                                <p class="my-2 ">{{ review.body|linebreaksbr }}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </section>
+            </main>
+        </div>
+    </div>
+</section>
+{% endblock %}

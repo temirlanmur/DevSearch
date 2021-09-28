@@ -1,0 +1,47 @@
+{% extends 'users/base_users.html' %}
+
+
+{% block title %}
+{{ block.super }} - Profiles
+{% endblock %}
+
+
+{% block content %}
+
+<!-- Search Bar -->
+<section class="py-5 bg-dark text-light">
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+        <h2 class="w-50 display-6 text-uppercase text-center mb-4">
+            Connect with <span class="fw-bold">developers</span> from around the world
+        </h2>
+        <form class="w-50" id="search_form" action="{% url 'users:profiles' %}" method="GET">            
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="search_query" value="{{ search_query }}"
+                    placeholder="Search by Dev's name / skill / bio">
+                <input type="submit" value="Search" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Main -->
+<main class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for profile in profile_list %}
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <a class="text-reset text-decoration-none"
+                       href="{{ profile.get_absolute_url }}">
+                        {% include 'users/profile_card.html' %}
+                    </a>
+                </div>                
+            {% empty %}
+                <p>No profiles available</p>
+            {% endfor %}            
+        </div>
+    </div>
+</main>
+
+{% include 'pagination.html' with queryset=profile_list %}
+
+{% endblock %}
