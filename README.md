@@ -1,4 +1,4 @@
-# This DevSearch Platform
+# DevSearch Platform
 
 The project is based on Dennis Ivy's course
 
