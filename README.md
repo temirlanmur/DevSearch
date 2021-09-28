@@ -11,7 +11,8 @@ The developer may register in the site, update his/her profile information, add 
 
 The implemented functionalities of the project include:
 * Authorization
-* CRUD functionalities (commenting, voting, messaging) 
+* CRUD functionalities (commenting, tagging, voting, messaging)
+* Search
 * Notifications using Django Messages app
 * Proper state management with Django Signals app
 * Styling using Bootstrap 5 library
