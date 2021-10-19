@@ -12,6 +12,7 @@ urlpatterns = [
     path('', views.Routes.as_view(), name='api_routes'),
     path('projects', views.ProjectList.as_view(), name='project_list'),
     path('projects/<uuid:project_id>', views.ProjectRetrieve.as_view(), name='project_detail'),
+    path('projects/<uuid:project_id>/vote', views.ReviewCreate.as_view(), name='create_vote'),
 
     # Simple JWT plugin's routes
     # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/index.html
